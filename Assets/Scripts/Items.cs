@@ -19,16 +19,3 @@ public class Items : MonoBehaviour
 }
 
 
-
-//{
-//    public int count;
-
-//    private void OnTriggerEnter2D(Collider2D collision) 
-//    {
-//        if (collision.gameObject.CompareTag("Player")) //якщо гравець заходить в зону трігера 
-//        {
-//            collision.gameObject.GetComponent<Player>().AddItem(count); //додаємо до кількості зібраних предметів +1
-//            Destroy(gameObject); // знищуємо модельку монетки (звертаємось до своїх об'єктів, тому з маленької) 
-//        }
-//    }
-//}
