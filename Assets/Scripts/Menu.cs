@@ -7,12 +7,12 @@ public class Menu : MonoBehaviour
 {
     public void Play()
     {
-        SceneManager.LoadScene(1); //запускаємо сцену 1
+        SceneManager.LoadScene(1); 
     }
 
     public void Exit()
     {
-        Application.Quit(); //вийти з гри 
+        Application.Quit(); 
     }
 
 }

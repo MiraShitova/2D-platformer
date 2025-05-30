@@ -8,8 +8,6 @@ using TMPro;
 
 public class Player : MonoBehaviour
 {
-    //-----------------------Змінні--------------------------------------------------
-   
     public float Speed;
     public Vector3 SpawnPosition;
     public float JumpForce = 4.5f;
@@ -21,35 +19,35 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb2d;
     private Animator animator;
 
-    // Таймер проходження гри
+    
     private float elapsedTime = 0f;
-    public TextMeshProUGUI timerText; // Посилання на UI-текст для таймера
+    public TextMeshProUGUI timerText; 
 
     public void Start()
-    {// беремо доступ до компонентів один раз і потім постійно використовуємо, а не постійно звертаємось щоб взяти доступ
+    {
         spriteRenderer = GetComponent<SpriteRenderer>();
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
-        transform.position = SpawnPosition; // задаємо місце спавну гравця
+        transform.position = SpawnPosition; 
     }
 
-    private void FixedUpdate() //------------------Пересування по карті------------------------------
+    private void FixedUpdate() 
     {
-        if (Input.GetKey(KeyCode.D)) //якщо затиснути D
+        if (Input.GetKey(KeyCode.D)) 
         {
-            transform.position += transform.right * Speed; //то позиція гравця змінюється на правіше 
-            spriteRenderer.flipX = true; //розвертає модельку гравця, щоб він дивився у ту сторону у яку йде
+            transform.position += transform.right * Speed; 
+            spriteRenderer.flipX = true; 
         }
 
-        if (Input.GetKey(KeyCode.A)) //якщо натискаємо на А
+        if (Input.GetKey(KeyCode.A)) 
         {
-            transform.position -= transform.right * Speed; //то позиція гравця змінюється на лівіше
-            spriteRenderer.flipX = false; //розвертає модельку гравця, щоб він дивився у ту сторону у яку йде
+            transform.position -= transform.right * Speed; 
+            spriteRenderer.flipX = false; 
         }
     }
 
-    private void Update() // ----------------------Стрибок-----------------------------------------
+    private void Update() 
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -57,33 +55,32 @@ public class Player : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(KeyCode.Space)) //при натисканні на пробіл
+        if (Input.GetKeyDown(KeyCode.Space)) 
         {
             if (isGrounded == true)
             {
-                rb2d.AddForce(transform.up * JumpForce, ForceMode2D.Impulse); //надає імпульс вгору 
+                rb2d.AddForce(transform.up * JumpForce, ForceMode2D.Impulse);  
             }
         }
 
-        //--------------------------Анімація-----------------------
-        if (isGrounded == true) //якщо ми стоїмо на землі, то 
+        
+        if (isGrounded == true) 
         {
-            if (Input.GetAxis("Horizontal") != 0) //перевіряємо якщо рухаємось (координати по горизонталі не= 0 )
+            if (Input.GetAxis("Horizontal") != 0) 
             {
-                animator.Play("Run"); //то вмикається анімація бігу
+                animator.Play("Run"); 
             }
-            else //інакше
+            else 
             {
-                animator.Play("Idle"); //вмикається анімація спокою
+                animator.Play("Idle"); 
             }
         }
 
-        else //інакше (тобто якщо ми не стоїмо на землі), то
+        else 
         {
-            animator.Play("Jump"); //вмикається анімація "стрибок"
+            animator.Play("Jump"); 
         }
 
-        // Оновлення таймера
         elapsedTime += Time.deltaTime;
         UpdateTimerUI();
 
@@ -99,21 +96,20 @@ public class Player : MonoBehaviour
         }
     }
 
-    //----------------- Текст --------------------------------
+    
     public void AddItem(int count)
     {
-        items += count; //задаєм значеня скільки є один предмет
+        items += count; 
 
-        itemsTextLegacy.text = $"Items collected: {items}/7"; //виводимо текст 
+        itemsTextLegacy.text = $"Items collected: {items}/7"; 
     }
-
 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Traps")) //коли ми доторкаємось до пастки
+        if (collision.gameObject.CompareTag("Traps")) 
         {
-            transform.position = SpawnPosition; // позиція гравця міняється на позицію спавну
+            transform.position = SpawnPosition; 
         }
     }
 

@@ -6,18 +6,17 @@ using TMPro;
 
 public class StoryPanel : MonoBehaviour
 {
-    public GameObject panel; // Посилання на панель
-
+    public GameObject panel; 
     void Start()
     {
-        panel.SetActive(true); // Показуваємо панель при старті гри
+        panel.SetActive(true); 
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) // Якщо гравець натиснув пробіл
+        if (Input.GetKeyDown(KeyCode.Space)) 
         {
-            panel.SetActive(false); // Скриваємо панель
+            panel.SetActive(false); 
         }
     }
 }

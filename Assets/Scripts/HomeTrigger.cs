@@ -8,32 +8,32 @@ using TMPro;
 
 public class HomeTrigger : MonoBehaviour
 {
-    public TextMeshProUGUI itemText; // Текст для показу кількості зібраних предметів
+    public TextMeshProUGUI itemText; 
 
     public GameObject messagePanel;
     public TextMeshProUGUI messageText;
     public Button continueButton;
     public Button exitButton;
 
-    public int totalItems = 7; // всього треба зібрати 
-    public int collectedItems = 0; // вже зібрано предметів
+    public int totalItems = 7; 
+    public int collectedItems = 0; 
 
     void Start()
     {
-        messagePanel.SetActive(false); // скриваємо панель при старті
+        messagePanel.SetActive(false); 
         continueButton.onClick.AddListener(ContinueGame);
         exitButton.onClick.AddListener(ExitGame);
 
        
-        if (itemText != null)  // Перевірка на null для itemText
+        if (itemText != null)  
         {
-            UpdateUI(); // Оновлюємо UI при старті
+            UpdateUI(); 
         }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player")) // Перевіряємо, доторкнувся гравець чи ні
+        if (other.CompareTag("Player"))
         {
             ShowMessage();
         }
@@ -46,7 +46,7 @@ public class HomeTrigger : MonoBehaviour
         if (collectedItems >= totalItems)
         {
             messageText.text = "Вітаю! Клаус успішно дістався додому та знайшов усі свої загублені речі!";
-            continueButton.gameObject.SetActive(false); // Прибираємо кнопку "Продовжити"
+            continueButton.gameObject.SetActive(false); 
         }
         else
         {
@@ -60,28 +60,28 @@ public class HomeTrigger : MonoBehaviour
 
     void ContinueGame()
     {
-        messagePanel.SetActive(false); // закриваємо вікно і продовжуємо гру 
+        messagePanel.SetActive(false); 
     }
 
     void ExitGame()
     {
-        SceneManager.LoadScene(0); // Завантажуємо сцену з меню
+        SceneManager.LoadScene(0); 
     }
 
     public void UpdateCollectedItems(int count)
     {
-        collectedItems = count; // оновлюємо кількість зібраних предметів 
-        Debug.Log($"Collected Items: {collectedItems}");  // Для дебага, щоб побачити в консолі
+        collectedItems = count;
+        Debug.Log($"Collected Items: {collectedItems}");  
 
-        // Перевірка на null перед оновленням UI
+        
         if (itemText != null)
         {
-            UpdateUI(); // Оновлюємо UI при кожній зміні лічильника
+            UpdateUI(); 
         }
     }
 
 
-    public void UpdateUI()  // Оновлення тексту UI для кількості зібраних предметів
+    public void UpdateUI()  
     {
         if (itemText != null)
         {

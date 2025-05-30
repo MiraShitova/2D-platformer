@@ -9,13 +9,13 @@ public class ItemCollector : MonoBehaviour
 
     void Start()
     {
-        homeTrigger = FindObjectOfType<HomeTrigger>(); // Отримуємо доступ до HomeTrigger
+        homeTrigger = FindObjectOfType<HomeTrigger>(); 
     }
 
-    public void CollectItem(int itemValue) // Метод для додавання предметів
+    public void CollectItem(int itemValue) 
     {
-        collectedItems += itemValue; // Збільшуємо кількість зібраних предметів
-        homeTrigger.UpdateCollectedItems(collectedItems);  // Оновлюємо лічильник в HomeTrigger
+        collectedItems += itemValue; 
+        homeTrigger.UpdateCollectedItems(collectedItems);  
     }
 }
 
