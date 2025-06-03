@@ -8,6 +8,8 @@ using TMPro;
 
 public class Player : MonoBehaviour
 {
+    public AudioSource audioSource; // -----------
+
     public float Speed;
     public Vector3 SpawnPosition;
     public float JumpForce = 4.5f;
@@ -21,13 +23,24 @@ public class Player : MonoBehaviour
 
     
     private float elapsedTime = 0f;
-    public TextMeshProUGUI timerText; 
+    public TextMeshProUGUI timerText;
+
+
+    public AudioClip pickupSound; //-------------------
+    public AudioClip trapSound;
+    public AudioClip checkpointSound;
+    public AudioClip bounceSound;
+
+
+
+
 
     public void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>(); // -----------
 
         transform.position = SpawnPosition; 
     }
@@ -109,6 +122,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Traps")) 
         {
+            if (trapSound != null) audioSource.PlayOneShot(trapSound); //  звук пастки
             transform.position = SpawnPosition; 
         }
     }

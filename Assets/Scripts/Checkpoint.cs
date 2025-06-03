@@ -15,7 +15,9 @@ public class Checkpoint : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     private bool isAnimating = false; 
-    private bool useGlow = false; 
+    private bool useGlow = false;
+
+    public AudioClip checkpointSound;
 
     private void Start()
     {
@@ -27,6 +29,7 @@ public class Checkpoint : MonoBehaviour
     {
         if (collision.CompareTag("Player") && isActive && !isActivated) 
         {
+            if (checkpointSound != null) AudioSource.PlayClipAtPoint(checkpointSound, transform.position); // звук чекпоінту
             player.SpawnPosition = transform.position; 
             isActivated = true;
             ActivateCheckpoint(); 

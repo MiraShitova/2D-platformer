@@ -10,6 +10,8 @@ public class Bust : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
 
+    public AudioClip bounceSound;
+
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -20,7 +22,8 @@ public class Bust : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player")) 
         {
-            collision.rigidbody.AddForce(Vector2.up * bounceMultiplier, ForceMode2D.Impulse); 
+            collision.rigidbody.AddForce(Vector2.up * bounceMultiplier, ForceMode2D.Impulse);
+            AudioSource.PlayClipAtPoint(bounceSound, transform.position); // звук батута
             StartCoroutine(ChangeSpriteTemporarily()); 
         }
     }
