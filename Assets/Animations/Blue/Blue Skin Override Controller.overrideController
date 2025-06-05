@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Blue Skin Override Controller
+  m_Controller: {fileID: 9100000, guid: 1179f85ccebb87046ae4a69c8955a473, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 02dfd2ba8b7fde645964caf8830fa255, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: f11327ed1ce8bb04598e46841d14e610, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: f2e11c98e722b4c489815a15653212f1, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 56693b9d0cdfd844dba15fdb639aafdd, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: ea83d3ae1919fe543b3904a084265471, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: d154a4bd78ce3c9459fbf9553c453d23, type: 2}
