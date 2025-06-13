@@ -8,31 +8,26 @@ using TMPro;
 
 public class Player : MonoBehaviour
 {
-    public AudioSource audioSource; // -----------
-
     public float Speed;
-    public Vector3 SpawnPosition;
     public float JumpForce = 4.5f;
-    public bool isGrounded;
-    public int items;
-    public Text itemsTextLegacy;
-
-    private SpriteRenderer spriteRenderer;
-    private Rigidbody2D rb2d;
-    private Animator animator;
-
+    public Vector3 SpawnPosition;
     
+    public bool isGrounded;
+
     private float elapsedTime = 0f;
+
+
     public TextMeshProUGUI timerText;
-
-
-    public AudioClip pickupSound; //-------------------
+    
+    public AudioClip pickupSound; 
     public AudioClip trapSound;
     public AudioClip checkpointSound;
     public AudioClip bounceSound;
 
-
-
+    public AudioSource audioSource;
+    private SpriteRenderer spriteRenderer;
+    private Rigidbody2D rb2d;
+    private Animator animator;
 
 
     public void Start()
@@ -40,64 +35,71 @@ public class Player : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        audioSource = GetComponent<AudioSource>(); // -----------
+        audioSource = GetComponent<AudioSource>(); 
 
         transform.position = SpawnPosition; 
     }
 
-    private void FixedUpdate() 
+    private void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.D)) 
-        {
-            transform.position += transform.right * Speed; 
-            spriteRenderer.flipX = true; 
-        }
-
-        if (Input.GetKey(KeyCode.A)) 
-        {
-            transform.position -= transform.right * Speed; 
-            spriteRenderer.flipX = false; 
-        }
+        PlayerMovement();
     }
 
     private void Update() 
     {
+        PlayerJump();
+        PlayerAnimations();
+        UpdateTimerUI();
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManager.LoadScene(0); 
-        }
-
-
-        if (Input.GetKeyDown(KeyCode.Space)) 
-        {
-            if (isGrounded == true)
-            {
-                rb2d.AddForce(transform.up * JumpForce, ForceMode2D.Impulse);  
-            }
-        }
-
-        
-        if (isGrounded == true) 
-        {
-            if (Input.GetAxis("Horizontal") != 0) 
-            {
-                animator.Play("Run"); 
-            }
-            else 
-            {
-                animator.Play("Idle"); 
-            }
-        }
-
-        else 
-        {
-            animator.Play("Jump"); 
+            SceneManager.LoadScene(0);
         }
 
         elapsedTime += Time.deltaTime;
-        UpdateTimerUI();
 
     }
+
+    private void PlayerMovement()
+    {
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        transform.position += Vector3.right * horizontal * Speed;
+
+        if (horizontal != 0)
+            spriteRenderer.flipX = horizontal > 0;
+    }
+
+    private void PlayerJump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (isGrounded == true)
+            {
+                rb2d.AddForce(transform.up * JumpForce, ForceMode2D.Impulse);
+            }
+        }
+    }
+
+    private void PlayerAnimations()
+    {
+        if (isGrounded == true)
+        {
+            if (Input.GetAxis("Horizontal") != 0)
+            {
+                animator.Play("Run");
+            }
+            else
+            {
+                animator.Play("Idle");
+            }
+        }
+
+        else
+        {
+            animator.Play("Jump");
+        }
+    }
+
 
     private void UpdateTimerUI()
     {
@@ -109,15 +111,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    
-    public void AddItem(int count)
-    {
-        items += count; 
-
-        itemsTextLegacy.text = $"Items collected: {items}/7"; 
-    }
-
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Traps")) 
@@ -126,7 +119,5 @@ public class Player : MonoBehaviour
             transform.position = SpawnPosition; 
         }
     }
-
-    
 
 }

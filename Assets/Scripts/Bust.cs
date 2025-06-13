@@ -20,12 +20,17 @@ public class Bust : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player")) 
+        if (collision.gameObject.CompareTag("Player"))
         {
             collision.rigidbody.AddForce(Vector2.up * bounceMultiplier, ForceMode2D.Impulse);
-            AudioSource.PlayClipAtPoint(bounceSound, transform.position); // звук батута
-            StartCoroutine(ChangeSpriteTemporarily()); 
+            PlayBounceEffect();
         }
+    }
+
+    private void PlayBounceEffect()
+    {
+        AudioSource.PlayClipAtPoint(bounceSound, transform.position); 
+        StartCoroutine(ChangeSpriteTemporarily());
     }
 
     private IEnumerator ChangeSpriteTemporarily()

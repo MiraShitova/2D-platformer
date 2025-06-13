@@ -4,25 +4,29 @@ using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour
 {
-    public Transform[] points;
+    public Transform[] waypoints;
     public float speed = 2f;
+
     private int currentPointIndex = 0;
     private Transform playerOnPlatform;
 
     private void Update()
     {
-        if (points.Length == 0) return;
+        MoveToNextPoint();
+    }
 
-        Transform targetPoint = points[currentPointIndex];
+    private void MoveToNextPoint()
+    {
+        if (waypoints.Length == 0) return;
 
-        Vector3 targetPos = new Vector3(targetPoint.position.x, targetPoint.position.y, 0f);
-        Vector3 currentPos = new Vector3(transform.position.x, transform.position.y, 0f);
+        Vector2 currentPos = transform.position;
+        Vector2 targetPos = waypoints[currentPointIndex].position;
 
-        transform.position = Vector3.MoveTowards(currentPos, targetPos, speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(currentPos, targetPos, speed * Time.deltaTime);
 
-        if (Vector3.Distance(transform.position, targetPos) < 0.1f)
+        if (Vector2.Distance(currentPos, targetPos) < 0.1f)
         {
-            currentPointIndex = (currentPointIndex + 1) % points.Length;
+            currentPointIndex = (currentPointIndex + 1) % waypoints.Length;
         }
     }
 
@@ -37,7 +41,7 @@ public class MovingPlatform : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && playerOnPlatform == collision.transform)
         {
             playerOnPlatform.SetParent(null);
             playerOnPlatform = null;

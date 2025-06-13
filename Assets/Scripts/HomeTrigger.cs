@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-
 public class HomeTrigger : MonoBehaviour
 {
     public TextMeshProUGUI itemText; 
@@ -24,11 +23,8 @@ public class HomeTrigger : MonoBehaviour
         continueButton.onClick.AddListener(ContinueGame);
         exitButton.onClick.AddListener(ExitGame);
 
-       
-        if (itemText != null)  
-        {
-            UpdateUI(); 
-        }
+
+        UpdateUI();
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -36,6 +32,21 @@ public class HomeTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             ShowMessage();
+        }
+    }
+
+    public void UpdateCollectedItems(int count)
+    {
+        collectedItems = count;
+        Debug.Log($"Collected Items LOG: {collectedItems}");
+        UpdateUI();
+    }
+
+    private void UpdateUI()
+    {
+        if (itemText != null)
+        {
+            itemText.text = $"Зібрано предметів: {collectedItems} / {totalItems}";
         }
     }
 
@@ -53,7 +64,7 @@ public class HomeTrigger : MonoBehaviour
             int remainingItems = totalItems - collectedItems;
             messageText.text = $"Вітаю! Клаус успішно дістався своєї домівки, але, на жаль, знайшов не всі свої загублені речі. " +
                 $"\r\nВи можете продовжити гру і допомогти Клаусу знайти решту своїх речей або вийти з гри на цьому етапі." +
-                $" Залишилось знайти {remainingItems} предметів.";
+                $" Залишилось знайти {remainingItems} з 7 предметів.";
             continueButton.gameObject.SetActive(true);
         }
     }
@@ -68,27 +79,8 @@ public class HomeTrigger : MonoBehaviour
         SceneManager.LoadScene(0); 
     }
 
-    public void UpdateCollectedItems(int count)
-    {
-        collectedItems = count;
-        Debug.Log($"Collected Items: {collectedItems}");  
-
-        
-        if (itemText != null)
-        {
-            UpdateUI(); 
-        }
     }
 
-
-    public void UpdateUI()  
-    {
-        if (itemText != null)
-        {
-            itemText.text = $"Зібрано предметів: {collectedItems} / {totalItems}";
-        }
-    }
-}
 
 
 

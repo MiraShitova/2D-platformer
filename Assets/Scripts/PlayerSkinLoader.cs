@@ -12,7 +12,7 @@ public class PlayerSkinLoader : MonoBehaviour
 
     void Start()
     {
-        string skin = PlayerPrefs.GetString("SelectedSkin", "Green"); // за замовчуванням зелений
+        string skin = PlayerPrefs.GetString("SelectedSkin", "Green"); 
 
         switch (skin)
         {

@@ -11,12 +11,10 @@ public class Items : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            AudioSource.PlayClipAtPoint(pickupSound, transform.position); //  звук підбору
+            AudioSource.PlayClipAtPoint(pickupSound, transform.position); 
             other.gameObject.GetComponent<ItemCollector>().CollectItem(itemValue);
 
             Destroy(gameObject); 
         }
     }
 }
-
-
