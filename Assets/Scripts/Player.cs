@@ -10,8 +10,15 @@ public class Player : MonoBehaviour
 {
     public float Speed;
     public float JumpForce = 4.5f;
+    public float sprintSpeed = 8f;
     public Vector3 SpawnPosition;
-    
+
+    public float health;
+    public float healthMax;
+    public float damageForce;
+
+    private float currentMoveSpeed;
+
     public bool isGrounded;
 
     private float elapsedTime = 0f;
@@ -37,7 +44,9 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>(); 
 
-        transform.position = SpawnPosition; 
+        transform.position = SpawnPosition;
+
+        currentMoveSpeed = Speed;
     }
 
     private void FixedUpdate()
@@ -47,6 +56,7 @@ public class Player : MonoBehaviour
 
     private void Update() 
     {
+        HandleSprint();
         PlayerJump();
         PlayerAnimations();
         UpdateTimerUI();
@@ -60,13 +70,37 @@ public class Player : MonoBehaviour
 
     }
 
+    public void Damage(float damgeCount)
+    {
+        health -= damgeCount;
+
+        rb2d.AddForce(transform.up * damageForce, ForceMode2D.Impulse);
+        
+        if (health <= 0)
+        {
+            transform.position = SpawnPosition;
+        }
+    }
+
     private void PlayerMovement()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
-        transform.position += Vector3.right * horizontal * Speed;
+        transform.position += Vector3.right * horizontal * currentMoveSpeed * Time.fixedDeltaTime;
 
         if (horizontal != 0)
             spriteRenderer.flipX = horizontal > 0;
+    }
+
+    private void HandleSprint()
+    {
+        if (Input.GetKey(KeyCode.LeftShift)) // Перевіряємо, чи затиснута клавіша Left Shift
+        {
+            currentMoveSpeed = sprintSpeed; // Встановлюємо швидкість спрінту
+        }
+        else
+        {
+            currentMoveSpeed = Speed; // Повертаємо звичайну швидкість
+        }
     }
 
     private void PlayerJump()

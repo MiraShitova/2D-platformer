@@ -1,0 +1,124 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Enemy : MonoBehaviour
+{
+    public Transform pointsContainer;
+
+    private SpriteRenderer spriteRenderer;
+    private Rigidbody2D rb2d;
+
+    public List<Transform> points;
+    public int currentPoint;
+
+    public float speed;
+    public float damage;
+    public float culdown;
+
+    private Vector3 targetPosition;
+    private Transform target;
+
+    public float fromStartMaxDistance;
+    private Vector3 startPosition;
+
+    private bool isCanAttack = true;
+
+    private void Start()
+    {
+        for (int i = 0; i < pointsContainer.childCount; i++) 
+        {
+            points.Add(pointsContainer.GetChild(i));
+        }
+
+        startPosition = transform.position;
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        rb2d = GetComponent<Rigidbody2D>();
+    }
+
+    private void FixedUpdate()
+    {
+
+        if (target)
+        {
+            if (isCanAttack)
+            {
+                targetPosition = target.position;
+            }
+            else
+            {
+                targetPosition = target.position + Vector3.up * 2;
+            }
+        }
+        else
+        {
+            targetPosition = points[currentPoint].position;
+        }
+
+        if (transform.position.x < targetPosition.x)
+        {
+            spriteRenderer.flipX = true;
+        }
+        else
+        {
+            spriteRenderer.flipX = false;
+        }
+
+
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed);
+
+
+        if (transform.position == points[currentPoint].position)
+        {
+            currentPoint++;
+
+            if (currentPoint == points.Count)
+            {
+                currentPoint = 0;
+            }
+        }
+
+        if (Vector3.Distance(transform.position, startPosition) > fromStartMaxDistance)
+        {
+            target = null;
+        }
+
+        rb2d.velocity = Vector2.zero;
+
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<Player>().Damage(damage);
+            isCanAttack = false;
+            StartCoroutine(CuldownTimer());
+        }
+    }
+
+    private IEnumerator CuldownTimer()
+    {
+        yield return new WaitForSeconds(culdown);
+        isCanAttack = true;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            target = collision.transform;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            target = null;
+        }
+    }
+
+
+}
