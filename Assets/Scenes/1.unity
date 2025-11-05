@@ -81668,7 +81668,7 @@ MonoBehaviour:
   pointsContainer: {fileID: 1773276527}
   points: []
   currentPoint: 0
-  speed: 0.08
+  speed: 5
   damage: 30
   culdown: 1
   fromStartMaxDistance: 10
@@ -81802,7 +81802,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.0434783, y: 0.5217391}
+    oldSize: {x: 0.7826087, y: 0.73913044}
     newSize: {x: 0.7826087, y: 0.73913044}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

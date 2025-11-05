@@ -69,7 +69,7 @@ public class Enemy : MonoBehaviour
         }
 
 
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed);
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.fixedDeltaTime);
 
 
         if (transform.position == points[currentPoint].position)
@@ -137,5 +137,20 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void ResetState()
+    {
+        // 1. Примусово зупиняємо всі корутини (BackOffTimer, CuldownTimer)
+        StopAllCoroutines();
+
+        // 2. Скидаємо ціль
+        target = null;
+
+        // 3. Скидаємо всі бойові стани до початкових
+        isCanAttack = true;
+        isBackingOff = false;
+
+        // 4. Скидаємо швидкість, якщо вона могла змінитись
+        rb2d.velocity = Vector2.zero;
+    }
 
 }

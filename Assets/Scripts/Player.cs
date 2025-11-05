@@ -84,6 +84,16 @@ public class Player : MonoBehaviour
         
         if (health <= 0)
         {
+            // 1. Знаходимо ВСІХ ворогів на сцені
+            Enemy[] allEnemies = FindObjectsOfType<Enemy>();
+
+            // 2. Кажемо кожному з них скинути свій стан
+            foreach (Enemy e in allEnemies)
+            {
+                e.ResetState();
+            }
+
+            // 3. Тепер спокійно відроджуємо гравця
             transform.position = SpawnPosition;
             health = healthMax;
             healthImage.fillAmount = health / healthMax;
