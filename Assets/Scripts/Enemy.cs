@@ -23,6 +23,7 @@ public class Enemy : MonoBehaviour
     private Vector3 startPosition;
 
     private bool isCanAttack = true;
+    private bool isBackingOff = false;
 
     private void Start()
     {
@@ -39,16 +40,18 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-
         if (target)
         {
-            if (isCanAttack)
+            if (target)
             {
-                targetPosition = target.position;
-            }
-            else
-            {
-                targetPosition = target.position + Vector3.up * 2;
+                if (isBackingOff)
+                {
+                    targetPosition = target.position + Vector3.up * 2;
+                }
+                else
+                {
+                    targetPosition = target.position;
+                }
             }
         }
         else
@@ -92,10 +95,24 @@ public class Enemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            if (!isCanAttack) return; // Не бити, якщо кулдаун
+
             collision.gameObject.GetComponent<Player>().Damage(damage);
+
+            // Починаємо Кулдаун Атаки
             isCanAttack = false;
             StartCoroutine(CuldownTimer());
+
+            // Починаємо "Відліт"
+            isBackingOff = true;
+            StartCoroutine(BackOffTimer()); 
         }
+    }
+
+    private IEnumerator BackOffTimer()
+    {
+        yield return new WaitForSeconds(0.5f);
+        isBackingOff = false; 
     }
 
     private IEnumerator CuldownTimer()

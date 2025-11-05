@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
     public float health;
     public float healthMax;
     public float damageForce;
+    public Image healthImage;
+
 
     private float currentMoveSpeed;
 
@@ -25,6 +27,7 @@ public class Player : MonoBehaviour
 
 
     public TextMeshProUGUI timerText;
+
     
     public AudioClip pickupSound; 
     public AudioClip trapSound;
@@ -47,6 +50,8 @@ public class Player : MonoBehaviour
         transform.position = SpawnPosition;
 
         currentMoveSpeed = Speed;
+        health = healthMax;
+        healthImage.fillAmount = health / healthMax;
     }
 
     private void FixedUpdate()
@@ -73,12 +78,15 @@ public class Player : MonoBehaviour
     public void Damage(float damgeCount)
     {
         health -= damgeCount;
+        healthImage.fillAmount = health / healthMax;
 
         rb2d.AddForce(transform.up * damageForce, ForceMode2D.Impulse);
         
         if (health <= 0)
         {
             transform.position = SpawnPosition;
+            health = healthMax;
+            healthImage.fillAmount = health / healthMax;
         }
     }
 
@@ -150,7 +158,9 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("Traps")) 
         {
             if (trapSound != null) audioSource.PlayOneShot(trapSound); //  звук пастки
-            transform.position = SpawnPosition; 
+            transform.position = SpawnPosition;
+            health = healthMax;
+            healthImage.fillAmount = health / healthMax;
         }
     }
 
