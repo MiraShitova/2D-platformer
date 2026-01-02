@@ -84,6 +84,8 @@ public class Player : MonoBehaviour
         
         if (health <= 0)
         {
+            if (GameManager.instance != null) GameManager.instance.AddDeath();
+
             // 1. Знаходимо ВСІХ ворогів на сцені
             Enemy[] allEnemies = FindObjectsOfType<Enemy>();
 
@@ -167,6 +169,8 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Traps")) 
         {
+            if (GameManager.instance != null) GameManager.instance.AddDeath();
+
             if (trapSound != null) audioSource.PlayOneShot(trapSound); //  звук пастки
             transform.position = SpawnPosition;
             health = healthMax;
